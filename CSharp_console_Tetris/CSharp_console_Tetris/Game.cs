@@ -37,9 +37,9 @@ namespace CSharp_console_Tetris
         //声明场景枚举变量
         public static E_GameScene e_GameScene = E_GameScene.E_Start;
         //场景宽度
-        public int sceneWidth = 30;
+        public static int sceneWidth = 30;
         //场景高度
-        public int sceneHeight = 20;
+        public static int sceneHeight = 20;
 
         //构造函数
         /// <summary>
@@ -48,6 +48,9 @@ namespace CSharp_console_Tetris
         public Game()
         {
             InitConsole();//初始化控制台
+            
+
+
         }
 
         //主循环函数
@@ -56,14 +59,32 @@ namespace CSharp_console_Tetris
         /// </summary>
         public void MainLoop()
         {
-            
+            StartInterface startInterface = new StartInterface();
+            GameInterface gameInterface = new GameInterface();
+            EndInterface endInterface = new EndInterface();
 
             while (true)
             {
-                SwitchScene(e_GameScene);
-                Console.ReadKey();
+                switch(e_GameScene)
+                {
+                    case E_GameScene.E_Start:
+                        //游戏开始
+                        startInterface.Update();
+                        break;
+                    case E_GameScene.E_Playing:
+                        //游戏进行中
+                        gameInterface.Start();
+                        break;
+                    case E_GameScene.E_End:
+                        //游戏结束
+                        endInterface.Update();
+                        break;
+                    case E_GameScene.E_Exit://退出游戏
+                        //关闭游戏
+                        Environment.Exit(0);
+                        break;
+                }
                 
-
             }
         }
 
@@ -84,36 +105,8 @@ namespace CSharp_console_Tetris
 
 
 
-        //场景切换函数
-        /// <summary>
-        /// 场景切换函数
-        /// </summary>
-        /// <param name="e_GameScene">游戏场景</param>
-        public static void SwitchScene(E_GameScene e_GameScene)
-        {
-            switch (e_GameScene)
-            {
-                case E_GameScene.E_Start:
-                    //游戏开始
-                    StartInterface startInterface = new StartInterface();
-                    startInterface.Start();
-                    break;
-                case E_GameScene.E_Playing:
-                    //游戏进行中
-                    GameInterface gameInterface = new GameInterface();
-                    gameInterface.Start();
-                    break;
-                case E_GameScene.E_End:
-                    //游戏结束
-                    EndInterface endInterface = new EndInterface();
-                    endInterface.Start();
-                    break;
-                case E_GameScene.E_Exit:
-                    //退出游戏
-                  
-                    break;
-            }
-        }
+       
+      
 
 
     }

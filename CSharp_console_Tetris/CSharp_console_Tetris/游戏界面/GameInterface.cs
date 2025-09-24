@@ -13,6 +13,11 @@ namespace CSharp_console_Tetris
         public void Start()
         {
             Console.WriteLine("游戏进行界面");
+            Console.ReadKey();
+            Game.e_GameScene=E_GameScene.E_End;
+            //清理控制台
+            Console.Clear();
+
         }
     }
 }

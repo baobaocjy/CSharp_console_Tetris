@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace CSharp_console_Tetris
 {
-    internal class StartInterface
+    internal class StartInterface: ParentForStartOrEndinterface
     {
-        //开始方法
-        public void Start()
+        //构造函数
+        public StartInterface()
         {
-            Console.WriteLine("游戏开始界面");
-            Game.e_GameScene=E_GameScene.E_End;
+            title= "俄罗斯方块";
+            button1Text= "开始游戏";
+            Option1SwitchInterface= E_GameScene.E_Playing;
+            button2Text = "退出游戏";
+            Option2SwitchInterface = E_GameScene.E_Exit;
+
         }
     }
 }
