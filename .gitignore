@@ -401,3 +401,6 @@ FodyWeavers.xsd
 *.sln.iml
 .$类图.drawio.dtmp
 .$类图.drawio.bkp
+CSharp_console_Tetris/text1/Program.cs
+/CSharp_console_Tetris/text1
+/CSharp_console_Tetris/text2

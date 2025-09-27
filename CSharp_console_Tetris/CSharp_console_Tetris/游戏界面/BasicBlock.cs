@@ -67,6 +67,17 @@ namespace CSharp_console_Tetris
             }
 
         }
+
+        //擦除方法
+        /// <summary>
+        ///  擦除方法
+        /// </summary>
+        public void Erase()
+        {
+            Console.SetCursorPosition(position.x, position.y);
+            Console.Write("  ");
+        }
+
     }
 
 
@@ -81,6 +92,12 @@ namespace CSharp_console_Tetris
         {
             this.x = x;
             this.y = y;
+        }
+
+        // 关键：重写ToString()方法，返回"（X,Y）"格式的字符串
+        public override string ToString()
+        {
+            return $"({x},{y})";
         }
 
         // 重载==运算符，用于比较两个Position对象是否在x和y坐标上都相等
