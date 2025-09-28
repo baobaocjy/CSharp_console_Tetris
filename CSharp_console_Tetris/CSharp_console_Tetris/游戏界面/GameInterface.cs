@@ -12,29 +12,43 @@ namespace CSharp_console_Tetris
     {
         int n = 0;
         MoveBrick moveBrick = new MoveBrick();
+        ConsoleKey keyDirection = ConsoleKey.S;
+        //是否延迟变量
+        bool isDelay = false;
+
 
         //构造函数
         public GameInterface()
         {
             // 调用静态方法触发BrickInformation的静态构造函数
             BrickInformation.Initialize();
+
         }
         //开始方法
         public void Start()
-        { 
+        {
+            moveBrick.GetRandomBrick();
+            DrawWall();//绘制墙
+
+            
+            //开启第二线程
+            System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(thread2));
+            t.Start();
+            
+           
             while (true)
             {
-                DrawWall();//绘制墙
-                moveBrick.GetRandomBrick();
                 moveBrick.DrawBrick();
-                Console.ReadKey();
 
-                moveBrick.EraseBrick();
+                
+                System.Threading.Thread.Sleep(1000);
+
+                moveBrick.MoveTheBrick(keyDirection);
+               
             }
            
-
-
-
+            //结束第二线程
+            t.Abort();
 
         }
 
@@ -59,6 +73,18 @@ namespace CSharp_console_Tetris
             }
 
 
+        }
+
+        //新线程逻辑
+        public void thread2()
+        {
+            while (true)
+            {  //赋值给key1
+                keyDirection = Console.ReadKey(true).Key;//获取键盘输入
+                Console.SetCursorPosition(16, 3);
+                Console.Write(keyDirection);
+
+            }
         }
     }
 }

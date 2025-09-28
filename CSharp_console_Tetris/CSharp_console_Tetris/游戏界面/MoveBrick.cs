@@ -9,13 +9,13 @@ namespace CSharp_console_Tetris
     public class MoveBrick//搬砖工人
     {
         //当前方块的类型
-        public BlockType brickType= BlockType.I;
+        public BlockType brickType = BlockType.I;
         //当前方块的位置(中心位置)
-        public Position positionCentre= new Position(10, 5);
+        public Position positionCentre = new Position(10, 5);
         //当前方块的旋转状态
-        public int rotation= 0;
+        public int rotation = 0;
 
-        BasicBlock block= new BasicBlock(new Position(10, 5), BlockType.I); // 方块对象
+        BasicBlock block = new BasicBlock(new Position(10, 5), BlockType.I); // 方块对象
 
         private Random random = new Random(); // 全局随机数生成器
 
@@ -30,19 +30,19 @@ namespace CSharp_console_Tetris
         //绘制方块
         public void DrawBrick()
         {
-            for (int i = 0; i <4 ; i++)//绘制方块的四个小方块
+            for (int i = 0; i < 4; i++)//绘制方块的四个小方块
             {
-                block.position = positionCentre+BlockDataStorage<Position>.GetData(brickType, rotation, i);
+                block.position = positionCentre + BlockDataStorage<Position>.GetData(brickType, rotation, i);
                 block.type = brickType;
                 block.Draw();
 
             }
-          
+
         }
         //擦除方块
         public void EraseBrick()
         {
-            for (int i = 0; i <4; i++)//擦除方块的四个小方块
+            for (int i = 0; i < 4; i++)//擦除方块的四个小方块
             {
                 block.position = positionCentre + BlockDataStorage<Position>.GetData(brickType, rotation, i);
                 block.type = brickType;
@@ -50,8 +50,35 @@ namespace CSharp_console_Tetris
             }
         }
 
+        public void MoveTheBrick(ConsoleKey keyDirection)
+        {
+            EraseBrick();
+
+            switch (keyDirection) // 使用 key.Key 提取按键的值
+            {
+                case ConsoleKey.A: // 使用 ConsoleKey 枚举值进行判断
+                    positionCentre += new Position(-2, 0); // 左移
+                    break;
+
+                case ConsoleKey.D: // 使用 ConsoleKey 枚举值进行判断
+                    positionCentre += new Position(2, 0); // 右移
+                    break;
+                case ConsoleKey.S: // 使用 ConsoleKey 枚举值进行判断
+                    positionCentre += new Position(0, 1); // 下移
+                    break;
+                //否则
+                default:
+                    positionCentre += new Position(0, 1); // 下移
+                    break;
+            }
+
+            DrawBrick();
+            keyDirection = ConsoleKey.S;
+        }
+
+
     }
-    
+
 
 
 
