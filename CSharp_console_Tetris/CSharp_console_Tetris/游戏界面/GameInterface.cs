@@ -13,6 +13,7 @@ namespace CSharp_console_Tetris
         int n = 0;
         MoveBrick moveBrick = new MoveBrick();
         DepositionSquare depositionSquare = new DepositionSquare();//实例化一个沉积方块的类
+        private volatile bool _isThreadRunning = true;
 
 
 
@@ -37,7 +38,7 @@ namespace CSharp_console_Tetris
             t.Start();
 
 
-            while (true)
+            while (Game.e_GameScene == E_GameScene.E_Playing)
             {
                 moveBrick.MoveTheBrick(ConsoleKey.S);
                 if (depositionSquare.IsOverlap(moveBrick)) //判断是否与方块重叠
@@ -46,6 +47,10 @@ namespace CSharp_console_Tetris
                     depositionSquare.AddPosition(moveBrick);
                     depositionSquare.Draw();
                     moveBrick.GetRandomBrick();
+                    depositionSquare.ClearLine();
+                    depositionSquare.ClearLine();
+                    depositionSquare.ClearLine();
+                    depositionSquare.ClearLine();
                 }
                 moveBrick.DrawBrick();
 
@@ -53,7 +58,9 @@ namespace CSharp_console_Tetris
             }
 
             //结束第二线程
-            t.Abort();
+            depositionSquare.ClearAll();
+            _isThreadRunning = false;
+            t.Join();
 
         }
 
@@ -84,8 +91,10 @@ namespace CSharp_console_Tetris
         public void thread2()
         {
             ConsoleKey keyDirection;
-            while (true)
+            while (_isThreadRunning)
             {
+                if (!_isThreadRunning)
+                {break; }
                 keyDirection = Console.ReadKey(true).Key;
 
 
@@ -151,6 +160,10 @@ namespace CSharp_console_Tetris
                             depositionSquare.AddPosition(moveBrick);
                             depositionSquare.Draw();
                             moveBrick.GetRandomBrick();
+                            depositionSquare.ClearLine();
+                            depositionSquare.ClearLine();
+                            depositionSquare.ClearLine();
+                            depositionSquare.ClearLine();
                         }
                     }
                     else
@@ -162,7 +175,8 @@ namespace CSharp_console_Tetris
                         }
                     }
 
-
+                    if (!_isThreadRunning)
+                    { break; }
 
                     moveBrick.DrawBrick();
                     // 2. 线程阻塞500ms（期间的按键会进入缓冲区，需要被丢弃）

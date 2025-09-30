@@ -21,6 +21,8 @@ namespace CSharp_console_Tetris
         //绘制方法
         public void Draw()
         {
+            //清理
+            Console.Clear();
             //修改文字颜色为白色
             Console.ForegroundColor = ConsoleColor.White;
             //移动光标到指定位置

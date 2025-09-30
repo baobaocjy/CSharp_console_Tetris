@@ -116,10 +116,10 @@ namespace CSharp_console_Tetris
             BlockDataStorage<Position>.SetData(BlockType.J, 2, 2, new Position(0, 0));
             BlockDataStorage<Position>.SetData(BlockType.J, 2, 3, new Position(2, 0));
 
-            // 修复原代码中可能的格式问题
+          
             BlockDataStorage<Position>.SetData(BlockType.J, 3, 0, new Position(0, -1));
             BlockDataStorage<Position>.SetData(BlockType.J, 3, 1, new Position(0, 0));
-            BlockDataStorage<Position>.SetData(BlockType.J, 3, 2, new Position(-2, -1));
+            BlockDataStorage<Position>.SetData(BlockType.J, 3, 2, new Position(-2, 1));
             BlockDataStorage<Position>.SetData(BlockType.J, 3, 3, new Position(0, 1));
 
             // -------------------------- L型方块 --------------------------

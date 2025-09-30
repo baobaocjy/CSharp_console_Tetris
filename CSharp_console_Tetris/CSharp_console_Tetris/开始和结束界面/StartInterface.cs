@@ -11,6 +11,8 @@ namespace CSharp_console_Tetris
         //构造函数
         public StartInterface()
         {
+            //清理
+            Console.Clear();
             title= "俄罗斯方块";
             button1Text= "开始游戏";
             Option1SwitchInterface= E_GameScene.E_Playing;

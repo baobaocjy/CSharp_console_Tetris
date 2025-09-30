@@ -23,7 +23,7 @@ namespace CSharp_console_Tetris
         public void GetRandomBrick()
         {
             brickType = (BlockType)new Random().Next(2, 8);//随机生成2-7的数字，代表方块的类型
-            positionCentre = new Position(14, 2);
+            positionCentre = new Position(14, 0);
             rotation = random.Next(0, 4); // 随机生成0到3之间的数字，代表方块的初始旋转状态
         }
 

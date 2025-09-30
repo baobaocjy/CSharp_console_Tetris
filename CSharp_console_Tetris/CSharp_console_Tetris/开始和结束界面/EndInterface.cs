@@ -12,6 +12,7 @@ namespace CSharp_console_Tetris
         //构造函数
         public EndInterface()
         {
+            
             title = "游戏结束";
             button1Text = "返回开始界面";
             Option1SwitchInterface = E_GameScene.E_Start;
