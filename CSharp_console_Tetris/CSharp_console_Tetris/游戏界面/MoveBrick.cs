@@ -11,7 +11,7 @@ namespace CSharp_console_Tetris
         //当前方块的类型
         public BlockType brickType = BlockType.I;
         //当前方块的位置(中心位置)
-        public Position positionCentre = new Position(10, 5);
+        public Position positionCentre = new Position(14, 2);
         //当前方块的旋转状态
         public int rotation = 0;
 
@@ -52,16 +52,30 @@ namespace CSharp_console_Tetris
 
         public void MoveTheBrick(ConsoleKey keyDirection)
         {
-            EraseBrick();
 
+
+
+            EraseBrick();
             switch (keyDirection) // 使用 key.Key 提取按键的值
             {
                 case ConsoleKey.A: // 使用 ConsoleKey 枚举值进行判断
+
                     positionCentre += new Position(-2, 0); // 左移
+                    if (CheckWallCollision())
+                    {
+                        positionCentre += new Position(2, 0); // 右移
+                    }
+
                     break;
 
                 case ConsoleKey.D: // 使用 ConsoleKey 枚举值进行判断
+
                     positionCentre += new Position(2, 0); // 右移
+                    if (CheckWallCollision())
+                    {
+                        positionCentre += new Position(-2, 0); // 左移
+                    }
+
                     break;
                 case ConsoleKey.S: // 使用 ConsoleKey 枚举值进行判断
                     positionCentre += new Position(0, 1); // 下移
@@ -71,11 +85,25 @@ namespace CSharp_console_Tetris
                     positionCentre += new Position(0, 1); // 下移
                     break;
             }
-
             DrawBrick();
-            keyDirection = ConsoleKey.S;
         }
+        //检测是否与左右红墙相撞
+        public bool CheckWallCollision()
+        {
+            bool isCollision = false;
+            for (int i = 0; i < 4; i++)
+            {
+                block.position = positionCentre + BlockDataStorage<Position>.GetData(brickType, rotation, i);
+                if (block.position.x == 0)
+                { isCollision = true; }
+                else if (block.position.x == 28)
+                { isCollision = true; }
 
+            }
+
+            return isCollision;
+
+        }
 
     }
 

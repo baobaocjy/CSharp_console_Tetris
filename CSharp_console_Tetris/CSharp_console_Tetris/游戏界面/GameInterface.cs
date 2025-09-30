@@ -12,9 +12,8 @@ namespace CSharp_console_Tetris
     {
         int n = 0;
         MoveBrick moveBrick = new MoveBrick();
-        ConsoleKey keyDirection = ConsoleKey.S;
-        //是否延迟变量
-        bool isDelay = false;
+        
+
 
 
         //构造函数
@@ -28,25 +27,21 @@ namespace CSharp_console_Tetris
         public void Start()
         {
             moveBrick.GetRandomBrick();
+            moveBrick.DrawBrick();
             DrawWall();//绘制墙
+            ConsoleKey keyDirection = ConsoleKey.S;
 
-            
             //开启第二线程
             System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(thread2));
             t.Start();
-            
-           
+
+
             while (true)
             {
-                moveBrick.DrawBrick();
-
-                
-                System.Threading.Thread.Sleep(1000);
-
-                moveBrick.MoveTheBrick(keyDirection);
-               
+                moveBrick.MoveTheBrick(ConsoleKey.S);
+                System.Threading.Thread.Sleep(1500);
             }
-           
+
             //结束第二线程
             t.Abort();
 
@@ -78,13 +73,59 @@ namespace CSharp_console_Tetris
         //新线程逻辑
         public void thread2()
         {
+            ConsoleKey keyDirection;
             while (true)
-            {  //赋值给key1
-                keyDirection = Console.ReadKey(true).Key;//获取键盘输入
-                Console.SetCursorPosition(16, 3);
-                Console.Write(keyDirection);
+            {
+                keyDirection = Console.ReadKey(true).Key;
+                //判断是否是空格键
+                if (keyDirection == ConsoleKey.Spacebar)
+                {
+                    moveBrick.EraseBrick();
+                    if (moveBrick.rotation == 3)
+                    {
+                        moveBrick.rotation = 0;
+                    }
+                    else 
+                    {
+                        moveBrick.rotation++;
+                    }
+                    moveBrick.EraseBrick();
+                    moveBrick.DrawBrick();
+                }
+                else 
+                {
+                    // 1. 处理按键
+                    moveBrick.MoveTheBrick(keyDirection);
+                    // 2. 线程阻塞500ms（期间的按键会进入缓冲区，需要被丢弃）
+                    System.Threading.Thread.Sleep(50);
+                    // 3. 清空Sleep期间积累的无效按键
+                }
+                ////检测是否与墙碰撞
+                //if (moveBrick.CheckWallCollision() == "left")
+                //{
+                //    moveBrick.MoveTheBrick(ConsoleKey.D);
+
+                //}
+                //else if (moveBrick.CheckWallCollision() == "right")
+                //{
+                //    moveBrick.MoveTheBrick(ConsoleKey.A);
+                //}
+
+
+
+
+
+                while (Console.KeyAvailable)
+                {
+                    Console.ReadKey(true); // 读取并丢弃缓冲区中的按键
+                }
+
+               
 
             }
+        
+            
+            
         }
     }
 }
