@@ -35,7 +35,7 @@ namespace CSharp_console_Tetris
     {
 
         //声明场景枚举变量
-        public static E_GameScene e_GameScene = E_GameScene.E_Start;
+        public static E_GameScene e_GameScene = E_GameScene.E_Playing;
         //场景宽度
         public static int sceneWidth = 30;
         //场景高度
